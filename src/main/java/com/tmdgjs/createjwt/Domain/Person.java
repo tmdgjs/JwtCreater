@@ -15,7 +15,6 @@ public class Person implements Serializable {
 
     private static final long serialVersionUID = 1370692830319429806L;
 
-
     @Builder
     public Person(String id, String firstname, String lastname, Address address) {
         this.id = id;

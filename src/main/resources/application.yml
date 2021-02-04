@@ -7,3 +7,9 @@ spring:
         max-active: 10
         max-idle: 10
         min-idle: 2
+  cache:
+    redis:
+      defaultExpireTime : 0
+      expireTime:
+        billDetailData : 3600
+        billSummaryInfos : 3600

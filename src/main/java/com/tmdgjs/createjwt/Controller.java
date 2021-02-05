@@ -10,8 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class Controller {
@@ -58,6 +62,23 @@ public class Controller {
         String abc = jwtCreateService.convertHeader(Header.builder().alg(algorithm).build());
 
         return new ResponseEntity<>(abc, HttpStatus.OK);
+    }
+
+    @GetMapping("/v1/getPayload")
+    public ResponseEntity<String> getPayload(){
+
+        Map<String, Object> payloads = new HashMap<>();
+
+        payloads.put("name", "tmdgjs");
+        payloads.put("lv", 225);
+        payloads.put("exp", 15023431434L);
+
+        String convertedPayload = jwtCreateService.convertPayload(payloads);
+
+
+        return new ResponseEntity<>(convertedPayload, HttpStatus.OK);
+
+
     }
 
 

@@ -4,14 +4,56 @@
     <meta charset="UTF-8">
     <title>Index</title>
     <link rel="stylesheet" type="text/css" href="./style.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
 </head>
 <body>
 <div id="mainWrap">
-    <div id="createJwtWrap">
+    <article class="createJwtWrap">
+        <header>
+            <select id="algorithm">
+                <option>HS256</option>
+                <option>HS512</option>
+            </select>
+        </header>
+
+        <section>
+
+            <div id="payloadWrap">
+                <p>
+                    PAYLOAD : <span>DATA</span>
+                </p>
+
+                <p class="addButtonWrap">
+                    <button>추가</button>
+                </p>
+
+                <div id="payloadDataWrap">
+
+                    <ul>
+                        <li><input />   :    <input />       <button>-</button></li>
+                        <li><input /></li>
+                        <li><input /></li>
+                        <li><input /></li>
+                        <li><input /></li>
+                        <li><input /></li>
+                        <li><input /></li>
+                    </ul>
+
+                </div>
+
+            </div>
 
 
 
-    </div>
+        </section>
+
+
+        <footer>
+            <button>발급</button>
+        </footer>
+
+
+    </article>
 
     <div id="decodeJwtWrap">
 

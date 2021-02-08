@@ -36,6 +36,21 @@ public class RedisStringsTestMock {
 
     }
 
+    @Test
+    public void subStringTest(){
+
+        String str = "cover_20210208153357.jpg";
+        String replacedStr;
+
+        String array[] = str.split("/");
+
+        System.out.println(array);
+
+        replacedStr = str.replace(array[array.length -1], "");
+
+        System.out.println(replacedStr);
+    }
+
 
 
 }

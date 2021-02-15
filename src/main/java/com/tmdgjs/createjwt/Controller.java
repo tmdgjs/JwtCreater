@@ -2,17 +2,16 @@ package com.tmdgjs.createjwt;
 
 import com.tmdgjs.createjwt.Domain.Address;
 import com.tmdgjs.createjwt.Domain.Header;
+import com.tmdgjs.createjwt.Domain.JJwtToken;
 import com.tmdgjs.createjwt.Domain.Person;
+import com.tmdgjs.createjwt.Response.DefaultResponse;
 import com.tmdgjs.createjwt.Service.GetSetService;
 import com.tmdgjs.createjwt.Service.JwtCreateService;
 import com.tmdgjs.createjwt.Service.Services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -69,9 +68,10 @@ public class Controller {
 
         Map<String, Object> payloads = new HashMap<>();
 
-        payloads.put("name", "tmdgjs");
+        payloads.put("name", "dfdsafdsafdsafjdsalkfjdsajf;dsa");
         payloads.put("lv", 225);
         payloads.put("exp", 15023431434L);
+        payloads.put("char", "flame");
 
         String convertedPayload = jwtCreateService.convertPayload(payloads);
 
@@ -79,6 +79,34 @@ public class Controller {
         return new ResponseEntity<>(convertedPayload, HttpStatus.OK);
 
 
+    }
+
+    @GetMapping("/v1/getSignature")
+    public ResponseEntity<String> getSignature(){
+
+        String algorithm = "HS256";
+
+        String abc = jwtCreateService.convertHeader(Header.builder().alg(algorithm).build());
+        System.out.println(getPayload().getBody());
+
+        String headerPlusPayload = abc + "." + getPayload().getBody();
+
+        String signature = jwtCreateService.getSingnature(abc, headerPlusPayload);
+
+        String jwtToken = headerPlusPayload + "." + signature;
+
+        return new ResponseEntity<>(jwtToken, HttpStatus.OK);
+    }
+
+    @PostMapping("/v2/jwts")
+    public ResponseEntity<Object> getJJwtToken(@RequestBody JJwtToken jjwtToken){
+
+        DefaultResponse objResponse = jwtCreateService.createJJwtToken(jjwtToken);
+
+        if(objResponse.getCode() == 400)
+            return new ResponseEntity<>(objResponse.getMsg(), HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(objResponse.getData(), HttpStatus.OK);
     }
 
 

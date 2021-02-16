@@ -2,7 +2,7 @@ package com.tmdgjs.createjwt.Service;
 
 import com.tmdgjs.createjwt.Domain.Header;
 import com.tmdgjs.createjwt.Domain.JJwtToken;
-import com.tmdgjs.createjwt.Exception.AlgorithmException;
+import com.tmdgjs.createjwt.Exception.JwtException;
 import com.tmdgjs.createjwt.Response.DefaultResponse;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

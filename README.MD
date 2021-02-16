@@ -29,7 +29,7 @@ Image
 프로젝트를 클론합니다.
 
 ```
-git clone https://github.com/tmdgjs/Movie_Pointer
+git clone https://github.com/tmdgjs/JwtCreater
 ```
 
 접속 시 웹 페이지를 확인하실 수 있습니다.

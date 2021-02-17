@@ -2,7 +2,9 @@ package com.tmdgjs.createjwt.Service;
 
 import com.tmdgjs.createjwt.Domain.Address;
 import com.tmdgjs.createjwt.Domain.Person;
+import com.tmdgjs.createjwt.Domain.Token;
 import com.tmdgjs.createjwt.PersonRedisRepository;
+import com.tmdgjs.createjwt.Repository.TokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Service;
@@ -20,9 +22,10 @@ public class Services {
 
     private PersonRedisRepository personRedisRepository;
 
+    private TokenRepository tokenRepository;
 
-    public Services( PersonRedisRepository personRedisRepository) {
-        this.personRedisRepository = personRedisRepository;
+    public Services( TokenRepository tokenRepository) {
+        this.tokenRepository = tokenRepository;
     }
 
 
@@ -155,5 +158,11 @@ public class Services {
 
 
         return personRedisRepository.save(person);
+    }
+
+    public Token saves(Token token){
+
+
+        return tokenRepository.save(token);
     }
 }

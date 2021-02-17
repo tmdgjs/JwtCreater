@@ -17,7 +17,7 @@ const fnObjectAdd = () => {
         return;
     }
 
-    let objPayloadData = `<li id=payload`+ state.intPayloadAddCount +`>
+    let objPayloadData = `<li class='payload-item' id=payload`+ state.intPayloadAddCount +`>
                             <input placeholder='Key' /> <span class='colon'>:</span>
                             <input placeholder='Value'/>
                             <button onclick='fnObjectRemove(this)'>➖</button>

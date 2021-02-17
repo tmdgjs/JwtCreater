@@ -1,4 +1,4 @@
-package com.tmdgjs.createjwt;
+package com.tmdgjs.createjwt.Controller;
 
 import com.tmdgjs.createjwt.Domain.Address;
 import com.tmdgjs.createjwt.Domain.Header;
@@ -91,14 +91,15 @@ public class Controller {
 
         String headerPlusPayload = abc + "." + getPayload().getBody();
 
-        String signature = jwtCreateService.getSingnature(abc, headerPlusPayload);
+        /*String signature = jwtCreateService.getSingnature(abc, headerPlusPayload);
 
         String jwtToken = headerPlusPayload + "." + signature;
-
+*/
+        String jwtToken = "";
         return new ResponseEntity<>(jwtToken, HttpStatus.OK);
     }
 
-    @PostMapping("/v2/jwts")
+    /*@PostMapping("/v2/jwts")
     public ResponseEntity<Object> getJJwtToken(@RequestBody JJwtToken jjwtToken){
 
         DefaultResponse objResponse = jwtCreateService.createJJwtToken(jjwtToken);
@@ -107,7 +108,7 @@ public class Controller {
             return new ResponseEntity<>(objResponse.getMsg(), HttpStatus.BAD_REQUEST);
 
         return new ResponseEntity<>(objResponse.getData(), HttpStatus.OK);
-    }
+    }*/
 
 
 

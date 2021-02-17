@@ -1,5 +1,5 @@
 $(document).ready(() => {
-    
+    fnJwtList();
 
 })
 
@@ -9,6 +9,23 @@ let state = {
     intPayloadAddCount : 1
 }
 
+const fnDefaultAjax = (type, url, data, successFunction, errorFunction) => {
+
+    $.ajax({
+        type : type,
+        contentType: 'application/json',
+        url  : url,
+        //async : false,
+        data : JSON.stringify(data),
+        success : res => {
+            successFunction(res)
+        },
+        error : err => {
+            errorFunction(err)
+        },
+    })
+
+}
 
 const fnObjectAdd = () => {
 
@@ -18,8 +35,8 @@ const fnObjectAdd = () => {
     }
 
     let objPayloadData = `<li class='payload-item' id=payload`+ state.intPayloadAddCount +`>
-                            <input placeholder='Key' /> <span class='colon'>:</span>
-                            <input placeholder='Value'/>
+                            <input class="key" placeholder='Key' /> <span class='colon'>:</span>
+                            <input class="value" placeholder='Value'/>
                             <button onclick='fnObjectRemove(this)'>➖</button>
                         </li>`;
 
@@ -43,6 +60,48 @@ const fnObjectRemove = (item) => {
     state.intPayloadSize--;
 }
 
+const fnJwtCreater = (type) => {
+
+    let algorithm = $("#algorithm").val();
+    let secretKey = $("#secretKey").val();
+    let payload   = fnPayload();
+
+    let objReq = new Object();
+
+    objReq.algo = algorithm;
+    objReq.secretKey = secretKey;
+    objReq.data = payload;
+
+    fnDefaultAjax("post","/jwts/v1", objReq, fnSuccess, fnError)
+}
+
+const fnPayload = () => {
+
+    let obj = new Map();
+
+    for(let i=0; i < state.intPayloadSize; i++){
+        let key   = $(".payload-item:eq("+i+")").children(".key").val()
+        let value = $(".payload-item:eq("+i+")").children(".value").val()
+
+        obj.set(key, value);
+    }
+
+    return Object.fromEntries(obj);
+}
+
+
+const fnSuccess = (res) => {
+
+    console.log(res.data);
+}
+
+
+const fnError = (err) => {
+
+    alert(err.responseJSON.msg);
+}
+
+
 const fnRedisItemOnclick = (item) => {
 
     $('.large.modal')
@@ -54,6 +113,34 @@ const fnRedisItemOnclick = (item) => {
 
 }
 
+const fnJwtList = () => {
+
+    fnDefaultAjax("get","/jwts", "", fnJwtListSuccess, fnJwtListError)
+
+}
+
+const fnJwtListSuccess = (res) => {
+
+    res.data.forEach( e => {
+        let objPayloadData = `<div class="item" onclick="fnRedisItemOnclick(this)" id=item`+ e.id +`>
+                            <i class="large database middle aligned icon"></i>
+                            <div class="content">
+                                <a class="header">` + e.token  +`</a>
+                                <div class="description">` + e.time + `</div>
+                            </div>
+                        </div>`;
+
+        $("#jwtList").append(objPayloadData);
+
+    })
+}
+
+
+const fnJwtListError = (err) => {
+
+    console.error(err);
+}
+
 const copyToClipboard = (value) => {
 
     var t = document.createElement("textarea");
@@ -63,7 +150,7 @@ const copyToClipboard = (value) => {
     document.execCommand('copy');
     document.body.removeChild(t);
 
-    alert("Copy!")
+    //alert("Copy!")
       
 
 }

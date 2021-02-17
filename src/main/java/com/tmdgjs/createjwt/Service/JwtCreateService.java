@@ -65,6 +65,9 @@ public class JwtCreateService {
     public DefaultResponse getSignature(JWTRequest jwtRequest, String headerPlusPayload) {
 
         try{
+            if(jwtRequest.getSecretKey().equals("")){
+                throw new NullPointerException("SecretKey가 존재하지 않습니다.");
+            }
 
             String selectAlgorithm = selectAlgorithm(jwtRequest.getAlgo());
 

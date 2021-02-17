@@ -57,8 +57,6 @@ public class JwtInfoService {
 
         Collections.reverse(objTokenList);
         return  DefaultResponse.builder().code(200).data(objTokenList).build();
-
-
     }
 
 }

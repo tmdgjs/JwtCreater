@@ -141,9 +141,9 @@ body{
 
 .createJwtWrap section #payloadWrap #payloadDataWrap ul li input{
 
-  width : 200px;
-  height : 20px;
-  padding: 10px 0px;
+  width: 40%;
+  height: 20px;
+  padding: 15px 0px;
 
 }
 

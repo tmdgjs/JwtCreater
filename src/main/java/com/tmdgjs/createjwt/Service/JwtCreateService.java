@@ -135,6 +135,12 @@ public class JwtCreateService {
     public DefaultResponse createJJwtToken(JWTRequest jwtRequest) {
 
         try{
+            if(jwtRequest.getSecretKey().equals("")){
+                throw new NullPointerException("SecretKey가 존재하지 않습니다.");
+            } else if (jwtRequest.getSecretKey().length() < 4 ){
+                throw new IllegalArgumentException("SecretKey의 길이는 4자리 이상이여야 합니다.");
+            }
+
             SignatureAlgorithm selectAlgorithm = null;
 
             switch (jwtRequest.getAlgo()){
@@ -165,9 +171,9 @@ public class JwtCreateService {
                     .compact();
 
             return DefaultResponse.builder().code(200).data(strJJwt).build();
-        } catch (NullPointerException npe){
-            npe.printStackTrace();
-            return new DefaultResponse(400, npe.getMessage());
+        } catch (NullPointerException | IllegalArgumentException e){
+            e.printStackTrace();
+            return new DefaultResponse(400, e.getMessage());
         }
     }
 

@@ -72,7 +72,7 @@ const fnJwtCreater = (type) => {
     objReq.secretKey = secretKey;
     objReq.data = payload;
 
-    fnDefaultAjax("post","/jwts/v1", objReq, fnSuccess, fnError)
+    fnDefaultAjax("post","/jwts/"+type, objReq, fnSuccess, fnError)
 }
 
 const fnPayload = () => {

@@ -1,7 +1,6 @@
 package com.tmdgjs.createjwt.Controller;
 
 import com.tmdgjs.createjwt.Domain.Header;
-import com.tmdgjs.createjwt.Domain.Token;
 import com.tmdgjs.createjwt.Request.JWTRequest;
 import com.tmdgjs.createjwt.Request.TokenSaveRequest;
 import com.tmdgjs.createjwt.Response.DefaultResponse;
@@ -25,8 +24,8 @@ public class TokenController {
     @Autowired
     private JwtInfoService jwtInfoService;
 
-    // Jwt 생성 1
-    @PostMapping("/v1")
+    // Jwt 생성
+    @PostMapping
     public ResponseEntity<DefaultResponse> makeJwtCreate1(@RequestBody JWTRequest jwtRequest){
 
         // header 암호화
@@ -53,19 +52,8 @@ public class TokenController {
                                                    .build(), HttpStatus.OK);
     }
 
-    // Jwt 생성 2
-    @PostMapping("/v2")
-    public ResponseEntity<DefaultResponse> makeJwtCreate2(@RequestBody JWTRequest jwtRequest){
-        DefaultResponse objResponse = jwtCreateService.createJJwtToken(jwtRequest);
-
-        if(objResponse.getCode() == STATUS_CODE_BAD_REQUEST)
-            return new ResponseEntity<>(objResponse, HttpStatus.BAD_REQUEST);
-
-        return new ResponseEntity<>(objResponse, HttpStatus.OK);
-    }
-
     // Jwt 저장
-    @PostMapping // /jwts
+    @PostMapping("/stores")// /jwts
     public ResponseEntity<DefaultResponse> saveJwt(@RequestBody TokenSaveRequest tokenSaveRequest){
 
         DefaultResponse objResponse = jwtInfoService.saveJwt(tokenSaveRequest);
@@ -83,5 +71,31 @@ public class TokenController {
         return new ResponseEntity<>(objResponse, HttpStatus.OK);
 
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DefaultResponse> getJwtInfo(@PathVariable("id") String id){
+
+        id = id.replace("item","");
+
+        DefaultResponse objResponse = jwtInfoService.getJwtInfo(id);
+
+        if(objResponse.getCode() == STATUS_CODE_BAD_REQUEST)
+            return new ResponseEntity<>(objResponse, HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(objResponse, HttpStatus.OK);
+
+    }
+
+    /*// Jwt 생성 2
+    @PostMapping("/v2")
+    public ResponseEntity<DefaultResponse> makeJwtCreate2(@RequestBody JWTRequest jwtRequest){
+        DefaultResponse objResponse = jwtCreateService.createJJwtToken(jwtRequest);
+
+        if(objResponse.getCode() == STATUS_CODE_BAD_REQUEST)
+            return new ResponseEntity<>(objResponse, HttpStatus.BAD_REQUEST);
+
+        return new ResponseEntity<>(new TokenResponse(STATUS_CODE_OK, objResponse.getData(), true), HttpStatus.OK);
+    }*/
+
 
 }

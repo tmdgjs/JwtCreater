@@ -48,7 +48,7 @@ public class jwtSaveTest {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일 a h시 m분");
         String nowString = now.format(dateTimeFormatter);   // 결과 : 2016년 4월 2일 오전 1시 4분
 
-        Token token = new Token(uuid, "qwereqwrqewrqewrwqerqwerwqerwqerqw" , nowString, false);
+        Token token = new Token(uuid, "qwereqwrqewrqewrwqerqwerwqerwqerqw" , nowString);
 
         /*PersonRedisRepository repo = Mockito.mock(PersonRedisRepository.class);
         Mockito.when(repo.save(person));

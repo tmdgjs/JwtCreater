@@ -137,9 +137,9 @@ public class JwtCreateService {
         try{
             if(jwtRequest.getSecretKey().equals("")){
                 throw new NullPointerException("SecretKey가 존재하지 않습니다.");
-            } else if (jwtRequest.getSecretKey().length() < 4 ){
+            } /*else if (jwtRequest.getSecretKey().length() < 4 ){
                 throw new IllegalArgumentException("SecretKey의 길이는 4자리 이상이여야 합니다.");
-            }
+            }*/
 
             SignatureAlgorithm selectAlgorithm = null;
 
@@ -167,7 +167,7 @@ public class JwtCreateService {
             String strJJwt = Jwts.builder()
                     .setHeader(objHeader)
                     .setClaims(objPayload)
-                    .signWith(selectAlgorithm, jwtRequest.getSecretKey())
+                    .signWith(selectAlgorithm, jwtRequest.getSecretKey().getBytes())
                     .compact();
 
             return DefaultResponse.builder().code(200).data(strJJwt).build();

@@ -29,7 +29,6 @@ public class JwtInfoService {
                            .id(String.valueOf(tokenId + 1))
                            .token(tokenSaveRequest.getToken())
                            .time(getToday())
-                           .isSecretKeyEncode(tokenSaveRequest.getIsSecretKeyEncode())
                            .build();
 
         Token savedToken = tokenRepository.save(insertToken);
@@ -57,6 +56,24 @@ public class JwtInfoService {
 
         Collections.reverse(objTokenList);
         return  DefaultResponse.builder().code(200).data(objTokenList).build();
+    }
+
+
+    public DefaultResponse getJwtInfo(String id) {
+
+        try{
+
+            Token token = tokenRepository.findById(id).orElse(new Token());
+
+            if(token.getId() == null || token.getId().equals(""))
+                throw new NullPointerException("존재하지 않는 토큰번호입니다.");
+
+            return DefaultResponse.builder().code(200).data(token).build();
+
+        } catch (NullPointerException npe){
+            npe.printStackTrace();
+            return new DefaultResponse(400, npe.getMessage());
+        }
     }
 
 }

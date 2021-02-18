@@ -2,6 +2,7 @@ package com.tmdgjs.createjwt.Domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @RedisHash("Token")
+@NoArgsConstructor
 public class Token implements Serializable {
 
     private static final Long serialVersionUID  = 1L;
@@ -21,14 +23,12 @@ public class Token implements Serializable {
     String id;    // uuid
     String token;
     String time;
-    Boolean isSecretKeyEncode;
 
     @Builder
-    public Token(String id, String token, String time, Boolean isSecretKeyEncode){
+    public Token(String id, String token, String time){
         this.id = id;
         this.token = token;
         this.time = time;
-        this.isSecretKeyEncode = isSecretKeyEncode;
     }
 
 }

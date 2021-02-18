@@ -7,6 +7,4 @@ public class TokenSaveRequest {
 
     String token;
 
-    Boolean isSecretKeyEncode; // button Type
-
 }

@@ -2,12 +2,14 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Index</title>
+    <title>JWT 생성기</title>
     <script src="https://code.jquery.com/jquery-3.5.1.js"  crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./semanticUI/semantic.min.css">
     <script src="./semanticUI/semantic.min.js"></script>
     <link rel="stylesheet" type="text/css" href="./css/style.css" />
-    <script src="js/app.js"></script>
+    <script src="./js/app.js"></script>
+    <script src="./js/ajaxSuccess.js"></script>
+    <script src="./js/ajaxError.js"></script>
 </head>
 <body>
 <div id="mainWrap">
@@ -21,7 +23,6 @@
         </header>
 
         <section>
-
             <div id="payloadWrap">
                 <p>
                     <span>PAYLOAD : <span>DATA</span></span>
@@ -29,55 +30,54 @@
                 </p>
 
                 <div id="payloadDataWrap">
-
                     <ul id="payloadDataList">
                         <li class='payload-item' id="payload0">
                             <input class="key" placeholder="Key" /> <span class="colon">:</span>
                             <input class="value" placeholder="Value"/>
                             <button onclick="fnObjectRemove(this)">➖</button>
                         </li>
-                        
                     </ul>
-
                 </div>
-
             </div>
 
             <div id="secretKeyWrap">
                 <input id="secretKey" type="text" placeholder="SecretKey">
             </div>
-
-
         </section>
 
-
         <footer>
-            <button onclick="fnJwtCreater('v1')">JWT 생성</button>
-            <button onclick="fnJwtCreater('v2')">JWT 생성 (SecretKey 암호화)</button>
+            <button onclick="fnJwtCreater()">JWT 생성</button>
         </footer>
-
-
     </article>
 
     <div id="jwtListWrap">
         <div class="ui relaxed divided list" id="jwtList"></div>
     </div>
-
+</div>
+<div class="ui small modal">
+    <div class="header">JWT Token</div>
+    <div class="content" style="word-break:break-all;">
+        <div id="createdToken"></div>
+    </div>
+    <div class="actions">
+        <div class="ui positive right labeled icon button" onclick="fnJwtSave()">
+          Save
+          <i class="save icon"></i>
+        </div>
+      </div>
 </div>
 <div class="ui large modal">
     <div class="header">JWT Token</div>
     <div class="content">
         <h2>Header</h2>
-        <p>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</p>
+        <p id="jwtHeader"></p>
         <h2>Payload</h2>
-        <p>eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ</p>
+        <p id="jwtPayload"></p>
         <h2>Signature</h2>
-        <p>SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c</p>
-    
+        <p id="jwtSignature"></p>
     </div>
     <div class="actions">
-        
-        <div class="ui positive right labeled icon button">
+        <div class="ui positive right labeled icon button" onclick="fnCopyBtn()">
           ALL Copy
           <i class="copy icon"></i>
         </div>

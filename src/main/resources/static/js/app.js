@@ -24,7 +24,6 @@ const fnDefaultAjax = (type, url, data, successFunction, errorFunction) => {
             errorFunction(err)
         },
     })
-
 }
 
 const fnObjectAdd = () => {
@@ -44,7 +43,6 @@ const fnObjectAdd = () => {
 
     state.intPayloadSize++;
     state.intPayloadAddCount++;
-    
 }
 
 const fnObjectRemove = (item) => {
@@ -60,7 +58,7 @@ const fnObjectRemove = (item) => {
     state.intPayloadSize--;
 }
 
-const fnJwtCreater = (type) => {
+const fnJwtCreater = () => {
 
     let algorithm = $("#algorithm").val();
     let secretKey = $("#secretKey").val();
@@ -72,7 +70,7 @@ const fnJwtCreater = (type) => {
     objReq.secretKey = secretKey;
     objReq.data = payload;
 
-    fnDefaultAjax("post","/jwts/"+type, objReq, fnSuccess, fnError)
+    fnDefaultAjax("post","/jwts", objReq, fnJwtCreateSuccess, fnJwtCreateError)
 }
 
 const fnPayload = () => {
@@ -89,56 +87,38 @@ const fnPayload = () => {
     return Object.fromEntries(obj);
 }
 
+const fnJwtSave = () => {
 
-const fnSuccess = (res) => {
+    let token = $("#createdToken").html();
 
-    console.log(res.data);
+    let objReq = new Object();
+    objReq.token = token;
+
+    fnDefaultAjax("post","/jwts/stores", objReq, fnJwtSaveSuccess, fnJwtSaveError)
 }
-
-
-const fnError = (err) => {
-
-    alert(err.responseJSON.msg);
-}
-
 
 const fnRedisItemOnclick = (item) => {
-
-    $('.large.modal')
-    .modal('show');
-
-    let jwt = $(item).children(".content").children(".header").html(); // 임시
-
-    copyToClipboard(jwt);
-
+    fnGetJwt(item);
 }
 
 const fnJwtList = () => {
 
+    $("#jwtList").empty();
+
     fnDefaultAjax("get","/jwts", "", fnJwtListSuccess, fnJwtListError)
-
 }
 
-const fnJwtListSuccess = (res) => {
+const fnGetJwt = (item) => {
 
-    res.data.forEach( e => {
-        let objPayloadData = `<div class="item" onclick="fnRedisItemOnclick(this)" id=item`+ e.id +`>
-                            <i class="large database middle aligned icon"></i>
-                            <div class="content">
-                                <a class="header">` + e.token  +`</a>
-                                <div class="description">` + e.time + `</div>
-                            </div>
-                        </div>`;
-
-        $("#jwtList").append(objPayloadData);
-
-    })
+    let id = $(item).attr("id");
+    
+    fnDefaultAjax("get","/jwts/"+id, "", fnGetJwtSuccess, fnGetJwtError)
 }
 
+const fnCopyBtn = () => {
 
-const fnJwtListError = (err) => {
-
-    console.error(err);
+    let token = $("#jwtHeader").html( ) + "." +  $("#jwtPayload").html() + "." + $("#jwtSignature").html()
+    copyToClipboard(token);
 }
 
 const copyToClipboard = (value) => {
@@ -150,7 +130,5 @@ const copyToClipboard = (value) => {
     document.execCommand('copy');
     document.body.removeChild(t);
 
-    //alert("Copy!")
-      
-
+    alert("복사 성공")
 }
